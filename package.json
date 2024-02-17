@@ -1,0 +1,12 @@
+{
+  "name": "create-vvtr",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "create-vvtr": "./index.js"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
