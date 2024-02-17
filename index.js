@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 const { execSync } = require("child_process");
 const readline = require("readline");
 const fs = require("fs");
@@ -33,6 +32,7 @@ function createProject(projectName, includeRouter) {
     `Navigate into your new project with 'cd ${projectName}' and run 'npm run dev' to start.`
   );
 
+  // Modify tailwind.config.js
   const tailwindConfig = `/** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -46,14 +46,32 @@ export default {
 }`;
   fs.writeFileSync("tailwind.config.js", tailwindConfig);
 
-  const linesToAdd = `@tailwind base;
+  // Add lines to the start of ./src/style.css
+  const cssImports = `@tailwind base;
 @tailwind components;
 @tailwind utilities;
 `;
-  fs.writeFileSync(
-    "./src/style.css",
-    linesToAdd + fs.readFileSync("./src/style.css", "utf8")
-  );
+  fs.writeFileSync("./src/style.css", cssImports);
+
+  // Modify App.vue
+  const appVueContent = `<template></template>
+
+<script src="./App.ts"></script>`;
+  fs.writeFileSync("./src/App.vue", appVueContent);
+
+  // Delete the components folder
+  fs.rmdirSync("./src/components", { recursive: true });
+
+  // Create App.ts
+  const appTsContent = `export default {
+  name: "App",
+  data() {
+    return {
+    };
+  },
+  methods: {},
+};`;
+  fs.writeFileSync("./src/App.ts", appTsContent);
 }
 
 rl.question("Project name: ", (projectName) => {
